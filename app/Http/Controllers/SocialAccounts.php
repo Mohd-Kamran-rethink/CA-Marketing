@@ -57,7 +57,7 @@ class SocialAccounts extends Controller
         $account->agent_id=$req->agent;
         $account->marketing_source_id=$req->source;
         $account->currency=$req->currency;
-        $account->total_value=$req->total_value;
+        $account->total_value=$req->total_value??0;
         $account->status='active';
         
         $account->provider=$req->provider;

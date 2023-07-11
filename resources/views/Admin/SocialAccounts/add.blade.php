@@ -99,7 +99,7 @@
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
-                                <label>Provider <span style="color:red">*</span></label>
+                                <label>Provider</label>
                                 <input type="text" name="provider" class="form-control" value="{{ isset($account) ? $account->provider : old('provider')  }}">
                                 @error('provider')
                                     <span class="text-danger">
