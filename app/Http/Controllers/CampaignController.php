@@ -87,6 +87,7 @@ class CampaignController extends Controller
     $campaign->city_id = $req->city;
     $campaign->agent_id  = session('user')->id;
     $campaign->description = $req->description;
+    $campaign->type = $req->type;
     $result = $campaign->save();
     if ($result) {
       return redirect('/campaigns')->with(['msg-success' => 'Campaign added successfully']);
@@ -104,6 +105,7 @@ class CampaignController extends Controller
     $campaign->state_id = $req->state;
     $campaign->city_id = $req->city;
     $campaign->description = $req->description;
+    $campaign->type = $req->type;
     $result = $campaign->save();
     if ($result) {
       return redirect('/campaigns')->with(['msg-success' => 'Campaign added successfully']);
@@ -131,6 +133,7 @@ class CampaignController extends Controller
       $campaginHistory->campaign_id = $req->campaginID;
       $campaginHistory->amount = $req->amount;
       $campaginHistory->banks_details_id  = $req->bank;
+      $campaginHistory->created_at=$req->fundingDate;
       $campaginHistory->save();
       $campagin->amount = $campagin->amount + $req->amount;
       $campagin->update();
@@ -144,6 +147,7 @@ class CampaignController extends Controller
         $transacionHistory->amount=$req->amount;
         $transacionHistory->bank_id=$bank->id;
         $transacionHistory->type='Withdraw';
+        $transacionHistory->created_at=$req->fundingDate;
         $transacionHistory->current_balance=$bank->amount-$req->amount;
         $transacionHistory->save();
         if($transacionHistory)

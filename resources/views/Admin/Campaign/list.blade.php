@@ -154,6 +154,7 @@
                                 <input type="number" name="amount" class="form-control">
                             </div>
                         </div>
+                        
 
                         <div class="modal-footer ">
                             <button type="submit" class="btn btn-danger">Submit</button>

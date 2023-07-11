@@ -26,7 +26,7 @@ class UserController extends Controller
             ->paginate(10);
 
 
-        return view('Admin.Agents.list', compact('agents', 'searchTerm',));
+        return view('Admin.Agents.list', compact('agents', 'searchTerm'));
     }
     public function AgentView(Request $req)
     {

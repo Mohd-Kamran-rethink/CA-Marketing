@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannkController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\PhoneNumberController;
 use App\Http\Controllers\SocialAccounts;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\TransferController;
@@ -97,4 +98,15 @@ Route::prefix('transfers')->group(function () {
     Route::get('',[TransferController::class,'TransferList'])->name('TransferList');
     Route::get('/add',[TransferController::class,'addTransferForm'])->name('addTransferForm');
     Route::post('/add',[TransferController::class,'addTransfer'])->name('addTransfer');
+});
+
+Route::prefix('/phone-numbers')->group(function () {
+    Route::get('', [PhoneNumberController::class, 'list'])->name('list');
+    Route::get('add', [PhoneNumberController::class, 'addForm'])->name('addForm');
+    Route::post('add', [PhoneNumberController::class, 'add'])->name('add');
+    Route::get('edit', [PhoneNumberController::class, 'addForm'])->name('addForm');
+    Route::post('edit', [PhoneNumberController::class, 'edit'])->name('edit');
+    Route::post('change-status', [PhoneNumberController::class, 'statusChange'])->name('statusChange');
+    Route::post('reassign', [PhoneNumberController::class, 'reassign'])->name('reassign');
+    Route::get('history', [PhoneNumberController::class, 'history'])->name('history');
 });

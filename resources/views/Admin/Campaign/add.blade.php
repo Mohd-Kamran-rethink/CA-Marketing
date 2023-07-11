@@ -101,6 +101,28 @@
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
+                                <label>Type <span class="text-danger">*</span></label>
+                                <select  name="type" id="type" class="form-control searchOptions" data-validation="required">
+                                    <option value="0">--Choose--</option>
+                                    <option value="whatsapp">Whatsapp</option>
+                                    <option value="messanger">Messanger</option>
+                                    <option value="leads">Leads</option>
+                                    <option value="leads_reach">Leads Reach</option>
+                                    <option value="links_clicks">Link Clicks</option>
+                                    <option value="landing_page">Landing Page Views</option>
+                                    
+                                </select>
+
+                                    @error('type')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
                                 <label>Description  </label>
                                 <textarea type="text"  name="description" id="description"
                                     class="form-control" data-validation="required">{{ isset($campaign) ? $campaign->description : old('description') }} 
