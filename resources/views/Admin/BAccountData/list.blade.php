@@ -82,9 +82,6 @@
                                                         title="withdraw" class="btn btn-secondary">Withdraw</a> --}}
 
 
-                                                    
-                                                            session('user')->role == 'withdrawal_banker' ||
-                                                            session('user')->role == 'customer_care_manager')
                                                         <a href="{{ url('bank-accounts/details/?id=' . $item->id) }}"
                                                             title="View Transaction details" class="btn btn-success">View
                                                             Details</a>
