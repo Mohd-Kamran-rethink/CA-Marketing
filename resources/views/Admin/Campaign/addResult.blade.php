@@ -116,6 +116,18 @@
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
+                                <label>Amount Spent</label>
+                                <input type="number" step="any" name="amout_spent" class="form-control"
+                                    value="{{ isset($result) ? $result->amout_spent : old('amout_spent') }}">
+                                @error('amout_spent')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-4">
+                            <div class="form-group">
                                 <label>Date<span style="color:red">*</span></label>
                                 <input type="date" step="any" name="date" class="form-control"
                                     value="{{ isset($result) ? $result->date : old('date') }}">

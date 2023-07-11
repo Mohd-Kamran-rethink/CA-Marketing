@@ -216,6 +216,7 @@ class CampaignController extends Controller
       $campaignResult->link_clicks=$req->link_clicks;
       $campaignResult->landing_page_views=$req->landing_page_views;
       $campaignResult->date=$req->date;
+      $campaignResult->amout_spent=$req->amout_spent;
       $result=$campaignResult->save();
       if ($result) {
         return redirect('/campaigns')->with(['msg-success' => 'Result added successfully']);
@@ -261,6 +262,7 @@ class CampaignController extends Controller
       $campaignResult->link_clicks=$req->link_clicks;
       $campaignResult->landing_page_views=$req->landing_page_views;
       $campaignResult->date=$req->date;
+      $campaignResult->amout_spent=$req->amout_spent;
       $result=$campaignResult->save();
       if ($result) {
         return redirect('/campaigns/view-results?id='.$req->campaign)->with(['msg-success' => 'Result added successfully']);
