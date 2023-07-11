@@ -21,6 +21,11 @@ class CampaignController extends Controller
     $endDate = $req->query('to_date') ?? null;
     $type = $req->query('type') ?? 'null';
     $account_id = $req->query('account_id') ?? 'null';
+    $agent_id = 'null';
+    if(session('user')->role=='marketing_agent')
+    {
+      $agent_id=session('user')->id;
+    }
     if (!$startDate) {
         $startDate = Carbon::now()->startOfDay();
         $endDate = Carbon::now()->endOfDay();
@@ -31,11 +36,13 @@ class CampaignController extends Controller
     $accounts=SocialAccount::where('status','=','active')->get();
     $campaign = Campaign::leftJoin('states', 'campaigns.state_id', 'states.id')
       ->leftJoin('cities', 'campaigns.city_id', 'cities.id')
-      
       ->leftJoin('social_accounts', 'campaigns.social_account_id', 'social_accounts.id')
       ->when($account_id !== 'null', function ($query) use ($account_id) {
         $query->where('campaigns.social_account_id', '=', intval($account_id));
-    })
+      })
+      ->when($agent_id !== 'null', function ($query) use ($agent_id) {
+        $query->where('campaigns.agent_id', '=', intval($agent_id));  
+      })
       ->select('campaigns.*', 'states.name as statename', 'cities.name as city','social_accounts.title as accountName')
       ->whereDate('campaigns.created_at', '>=', date('Y-m-d', strtotime($startDate)))
       ->whereDate('campaigns.created_at', '<=', date('Y-m-d', strtotime($endDate)))
@@ -78,6 +85,7 @@ class CampaignController extends Controller
     $campaign->title = $req->title;
     $campaign->state_id = $req->state;
     $campaign->city_id = $req->city;
+    $campaign->agent_id  = session('user')->id;
     $campaign->description = $req->description;
     $result = $campaign->save();
     if ($result) {

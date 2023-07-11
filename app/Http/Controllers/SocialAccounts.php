@@ -11,18 +11,28 @@ class SocialAccounts extends Controller
 {
     public function list(Request $req) 
     {
+        $agent_id=null;
+        if(session('user')->role=='marketing_agent')
+        {
+            $agent_id=session('user')->id;
+        }
         $searchTerm = $req->query('table_search');
         $accounts=SocialAccount::leftJoin('users','social_accounts.agent_id','users.id')
-        ->leftJoin('marketing_sources','social_accounts.marketing_source_id','marketing_sources.id')
-        ->when($searchTerm, function ($query, $searchTerm) {
-            $query->where(function ($query) use ($searchTerm) {
-                $query->where('title', 'like', '%' . $searchTerm . '%');
-                $query->orwhere('users.name', 'like', '%' . $searchTerm . '%');
-            });
-        })
-        ->select('social_accounts.*','users.name as agentName','marketing_sources.name as sourcename')
-        ->orderBy('id','desc')
-        ->paginate();
+                                ->leftJoin('marketing_sources','social_accounts.marketing_source_id','marketing_sources.id')
+                                ->when($searchTerm, function ($query, $searchTerm) {
+                                    $query->where(function ($query) use ($searchTerm) {
+                                        $query->where('title', 'like', '%' . $searchTerm . '%');
+                                        $query->orwhere('users.name', 'like', '%' . $searchTerm . '%');
+                                    });
+                                })
+                                ->when($agent_id, function ($query, $agent_id) {
+                                    $query->where(function ($query) use ($agent_id) {
+                                        $query->where('social_accounts.agent_id', '=',$agent_id);
+                                    });
+                                })
+                                ->select('social_accounts.*','users.name as agentName','marketing_sources.name as sourcename')
+                                ->orderBy('id','desc')
+                                ->paginate();
         return view('Admin.SocialAccounts.list',compact('accounts','searchTerm'));
     }
     public function addView(Request $req) {
