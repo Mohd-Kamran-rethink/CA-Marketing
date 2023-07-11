@@ -17,8 +17,8 @@ class TransferController extends Controller
     // transfers
     public function TransferList(Request $req)
     {
-        $startDate = $req->query('from_date') ?? null;
-        $endDate = $req->query('to_date') ?? null;
+        $startDate = $req->query('start_date') ?? null;
+        $endDate = $req->query('end_date') ?? null;
         if (!$startDate) {
             $startDate = Carbon::now()->startOfDay();
             $endDate = Carbon::now()->endOfDay();
