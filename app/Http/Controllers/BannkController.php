@@ -79,7 +79,7 @@ class BannkController extends Controller
             $bank->totalExpense = $totalExpense ?? '';
         }
 
-        return view('Admin.BAccountData.list', compact('banks'));
+        return view('Admin.BAccountData.list', compact('banks','searchTerm'));
     }
     public function addForm($id = null)
     {
