@@ -16,14 +16,14 @@ class BannkController extends Controller
     public function list(Request $req)
     {
 
-        $searchTerm=$req->query('table_search')??'';
+        $searchTerm=$req->query('table_search')??'null';
         $yesterday = Carbon::yesterday();
         $today = Carbon::today();
         $banks = BankDetail::leftjoin('users', 'bank_details.provider_id', '=', 'users.id')
                 ->where('type','=','marketing')
                 ->select('bank_details.*', 'users.name as provider_name')
                 ->whereNull('customer_id')
-                ->when($searchTerm, function ($query, $searchTerm) {
+                ->when($searchTerm!='null', function ($query, $searchTerm) {
                     $query->where(function ($query) use ($searchTerm) {
                         $query->where('bank_details.holder_name', 'like', '%' . $searchTerm . '%');
                         $query->orwhere('bank_details.ifsc', 'like', '%' . $searchTerm . '%');
