@@ -14,6 +14,7 @@ class PhoneNumberController extends Controller
         $searchTerm = $req->query('table_search');
         $platform_search = $req->query('platform_seach') ?? 'null';
         $status = $req->query('status') ?? 'null';
+        $filetByAgent = $req->query('filetByAgent') ?? 'null';
         $numbers = PhoneNumber::leftJoin('users','phone_numbers.assign_to','users.id')
                 ->when($platform_search != 'null', function ($query) use ($platform_search) {
                     $query->where(function ($query) use ($platform_search) {
@@ -23,6 +24,11 @@ class PhoneNumberController extends Controller
                 ->when($status != 'null', function ($query) use ($status) {
                     $query->where(function ($query) use ($status) {
                         $query->where('status', '=', $status);
+                    });
+                })
+                ->when($filetByAgent != 'null', function ($query) use ($filetByAgent) {
+                    $query->where(function ($query) use ($filetByAgent) {
+                        $query->where('assign_to', '=', $filetByAgent);
                     });
                 })
                     ->when($searchTerm, function ($query, $searchTerm) {
