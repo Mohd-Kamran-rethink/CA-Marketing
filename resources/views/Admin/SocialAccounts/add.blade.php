@@ -88,7 +88,7 @@
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
-                                <label>Total Value<span style="color:red">*</span></label>
+                                <label>Total Value</label>
                                 <input value="{{isset($account)?$account->total_value:old('total_value')}}" type="number" step="any" class="form-control" name="total_value">
                                  @error('total_value')
                                     <span class="text-danger">

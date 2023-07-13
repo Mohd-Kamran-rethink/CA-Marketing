@@ -29,9 +29,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-3 d-flex justify-content-between align-items-centers">
-                    <form action="{{ url('campaigns') }}" method="POST" id="search-form"
+                    {{-- <form action="{{ url('reports/deposits') }}" method="GET" id="search-form"
                         class="filters d-flex flex-row col-11 pl-0">
-                        @csrf
 
                         <div class="col-3 ">
                             <label for="">From</label>
@@ -44,40 +43,15 @@
                                 value="{{ isset($endDate) ? $endDate : '' }}">
                         </div>
 
-                        <div class="col-3">
-                            <label for="">Accounts</label>
-                            <select class="form-control" name="account_id" id="account_id">
-                                <option value="">--Choose--</option>
-                                @foreach ($accounts as $item)
-                                    <option {{ isset($filterAccount) && $filterAccount == $item->id ? 'selected' : '' }}
-                                        value="{{ $item->id }}">{{ $item->title }}</option>
-                                @endforeach 
-                            </select>
-
-                        </div>
-                        @if(session('user')->role=="marketing_manager")
-                        <div class="col-3">
-                            <label for="">Agents</label>
-                            <select class="form-control" name="agent_id" id="agent_id">
-                                <option value="">--Choose--</option>
-                                @foreach ($agents as $item)
-                                    <option {{ isset($agent_id) && $agent_id == $item->id ? 'selected' : '' }}
-                                        value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach 
-                            </select>
-                        </div>
-                        @endif
-
-
                         <div class="">
                             <label for="" style="visibility: hidden;">filter</label>
-                            <button class="btn btn-success form-control" type="submit">Filter</button>
+                            <button class="btn btn-success form-control" onclick="searchData()">Filter</button>
                         </div>
                         <div class="mx-2">
                             <label for="" style="visibility: hidden;">filter</label>
-                            <a tabindex="1" href="{{ url('campaigns/add') }}" class="btn btn-primary">Add</a>
+                            <a tabindex="1" href="{{ url('campaigns/add') }}" class="btn btn-primary">Add New Campaign</a>
                         </div>
-                    </form>
+                    </form> --}}
                     <div>
 
                     </div>
@@ -130,8 +104,6 @@
                                                         title="Add Result" class="btn btn-primary">Add Results</a> --}}
                                                     <a href="{{ url('campaigns/view-results/?id=' . $item->id) }}"
                                                         title="Add Result" class="btn btn-warning">Results Details</a>
-                                                    <a href="{{ url('campaigns/show-numbers/?id=' . $item->id) }}"
-                                                        title="Add Result" class="btn btn-danger">Phone Number</a>
                                                 </td>
                                             </tr>
                                         @empty

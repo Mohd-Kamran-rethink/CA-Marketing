@@ -29,20 +29,36 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-3 d-flex justify-content-between align-items-centers">
-                    <form action="{{ url('accounts') }}" method="GET" id="search-form">
-                        <div class="input-group input-group-sm" style="width: 150px;">
-                            <input type="text" value="{{ isset($searchTerm) ? $searchTerm : '' }}" name="table_search"
-                                class="form-control float-right" placeholder="Search" id="searchInput">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-default" onclick="searchData()" id="search-button">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </div>
+                    <form action="{{ url('accounts') }}" method="post" id="search-form"
+                        class="filters d-flex flex-row col-11 pl-0">
+                        @csrf
+                    <div class="col-3">
+                        <label for="">Search</label>
+                        <input value="{{isset($searchTerm)?$searchTerm:''}}" name="table_search" class="form-control" placeholder="Search">
+                    </div>
+                        
+
+                        <div class="col-3">
+                            <label for="">Agents</label>
+                            <select class="form-control" name="agent" id="agent">
+                                <option value="">--Choose--</option>
+                                @foreach ($agents as $item)
+                                    <option {{ isset($filterAgent) && $filterAgent == $item->id ? 'selected' : '' }}
+                                        value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach 
+                            </select>
+
+                        </div>
+
+                        <div class="">
+                            <label for="" style="visibility: hidden;">filter</label>
+                            <button class="btn btn-success form-control" type="submit">Filter</button>
+                        </div>
+                        <div class="mx-2">
+                            <label for="" style="visibility: hidden;">filter</label>
+                            <a tabindex="1" href="{{ url('accounts/add') }}" class="btn btn-primary">Add New Account</a>
                         </div>
                     </form>
-                    <div>
-                        <a tabindex="1" href="{{ url('accounts/add') }}" class="btn btn-primary">Add New Account</a>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-12">
@@ -80,6 +96,8 @@
                                                     <button tabindex="3" title="Deactivate this account"
                                                         onclick="accountModal({{ $item->id }})"
                                                         class="btn btn-danger">Change Status</button>
+                                                    <a href="{{url('/campaigns?account_id='.$item->id)}}"
+                                                        class="btn btn-danger">View Campaigns</a>
                                                 </td>
                                             </tr>
                                         @empty

@@ -43,15 +43,17 @@
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
                                 <label>Account</label>
-                                
-                                <select  name="account"  class="form-control searchOptions" data-validation="required">
+
+                                <select name="account" class="form-control searchOptions" data-validation="required">
                                     <option value="0">--Choose--</option>
                                     @foreach ($accounts as $item)
-                                        <option {{isset($campaign) && $campaign->social_account_id==$item->id?'selected':''}} value="{{$item->id}}">{{$item->title}}</option>
+                                        <option
+                                            {{ isset($campaign) && $campaign->social_account_id == $item->id ? 'selected' : '' }}
+                                            value="{{ $item->id }}">{{ $item->title }}</option>
                                     @endforeach
                                 </select>
 
-                                    @error('state')
+                                @error('state')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
@@ -59,19 +61,22 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
                                 <label>State</label>
-                                
-                                <select onchange="renderCitites(this.value)" name="state" id="state" class="form-control searchOptions" data-validation="required">
+
+                                <select onchange="renderCitites(this.value)" name="state" id="state"
+                                    class="form-control searchOptions" data-validation="required">
                                     <option value="0">--Choose--</option>
                                     @foreach ($states as $item)
-                                        <option {{isset($campaign) && $campaign->state_id==$item->id?'selected':''}} value="{{$item->id}}">{{$item->name}}</option>
+                                        <option
+                                            {{ isset($campaign) && $campaign->state_id == $item->id ? 'selected' : '' }}
+                                            value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
 
-                                    @error('state')
+                                @error('state')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
@@ -82,16 +87,19 @@
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
                                 <label>City</label>
-                                <select  name="city" id="city" class="form-control searchOptions" data-validation="required">
+                                <select name="city" id="city" class="form-control searchOptions"
+                                    data-validation="required">
                                     <option value="0">--Choose--</option>
-                                    @if(isset($cities))
-                                    @foreach ($cities as $item)
-                                        <option {{isset($campaign) && $campaign->city_id==$item->id?'selected':''}} value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
+                                    @if (isset($cities))
+                                        @foreach ($cities as $item)
+                                            <option
+                                                {{ isset($campaign) && $campaign->city_id == $item->id ? 'selected' : '' }}
+                                                value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
                                     @endif
                                 </select>
 
-                                    @error('city')
+                                @error('city')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
@@ -102,30 +110,48 @@
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
                                 <label>Type <span class="text-danger">*</span></label>
-                                <select  name="type" id="type" class="form-control searchOptions" data-validation="required">
+                                <select name="type" id="type" class="form-control searchOptions"
+                                    data-validation="required">
                                     <option value="0">--Choose--</option>
                                     <option value="whatsapp">Whatsapp</option>
+                                    <option value="wati">Wati</option>
                                     <option value="messanger">Messanger</option>
                                     <option value="leads">Leads</option>
                                     <option value="leads_reach">Leads Reach</option>
                                     <option value="links_clicks">Link Clicks</option>
                                     <option value="landing_page">Landing Page Views</option>
-                                    
-                                </select>
 
-                                    @error('type')
+                                </select>
+                                @error('type')
                                     <span class="text-danger">
                                         {{ $message }}
                                     </span>
                                 @enderror
-
                             </div>
                         </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="">Phone Numbers</label>
+                                <select class="form-control" name="phoneNumbers[]" id="" multiple>
+                                    <option value="0">--Choose--</option>
+                                    @foreach ($phones as $item)
+                                        <option value="{{ $item->id }}">{{ $item->number }}</option>
+                                    @endforeach
+
+                                </select>
+                                @error('phoneNumbers')
+                                    <span class="text-danger">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
-                                <label>Description  </label>
-                                <textarea type="text"  name="description" id="description"
-                                    class="form-control" data-validation="required">{{ isset($campaign) ? $campaign->description : old('description') }} 
+                                <label>Description </label>
+                                <textarea type="text" name="description" id="description" class="form-control" data-validation="required">{{ isset($campaign) ? $campaign->description : old('description') }} 
                                 </textarea>
                                 @error('description')
                                     <span class="text-danger">
@@ -135,8 +161,8 @@
 
                             </div>
                         </div>
-                       
-                       
+
+
 
 
 
@@ -153,8 +179,7 @@
         </div>
     </section>
     <script>
-        function renderCitites(id)
-        {
+        function renderCitites(id) {
             $.ajax({
                 url: BASE_URL + "/render/cities?state_id=" + id,
                 success: function(data) {
@@ -163,6 +188,6 @@
 
 
             });
-            }
+        }
     </script>
 @endsection

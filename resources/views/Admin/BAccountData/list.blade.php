@@ -50,13 +50,9 @@
                                             <th>S.No.</th>
                                             <th>Bank</th>
                                             <th>Type</th>
-                                            <th>First Opening Balance</th>
                                             <th>Opening Balance</th>
-                                            <th>Total Deposit</th>
-                                            <th>Total Withdraw</th>
                                             <th>Total Transfer IN</th>
                                             <th>Total Transfer Out</th>
-                                            <th>Total Expense</th>
                                             <th>Closing Balance</th>
                                             <th>Actions</th>
                                         </tr>
@@ -67,13 +63,9 @@
                                                 <td>{{ $loop->iteration }}</td>
                                                 <td>[{{ $item->holder_name }}]-[{{ $item->bank_name }}]-[{{ $item->account_number }}]-[{{ $item->ifsc }}]</td>
                                                 <td>{{ $item->type??'--' }}</td>
-                                                <td>{{ $item->old_opening??'--' }}</td>
                                                 <td>{{ $item->closginYesterday!=0?$item->closginYesterday:'--' }}</td>
-                                                <td>{{ $item->totalDeposit??0 }}</td>
-                                                <td>{{ $item->totalWithdraw??0 }}</td>
                                                 <td>{{ $item->totalTransferIN??0 }}</td>
                                                 <td>{{ $item->totalTransferOut??0 }}</td>
-                                                <td>{{ $item->totalExpense??0 }}</td>
                                                 <td>{{ $item->amount??0 }}</td>
                                                 <td>
                                                     {{-- <a href="{{ url('bank-accounts/deposit-money/' . $item->id) }}"

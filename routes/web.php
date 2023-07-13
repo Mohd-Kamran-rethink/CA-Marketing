@@ -59,6 +59,7 @@ Route::prefix('sources')->group(function () {
 
 Route::prefix('accounts')->group(function () {
     Route::get('',[SocialAccounts::class,'list'])->name('list');
+    Route::post('',[SocialAccounts::class,'list'])->name('list');
     Route::get('/add',[SocialAccounts::class,'addView'])->name('addView');
     Route::post('/add',[SocialAccounts::class,'add'])->name('add');
     Route::get('/edit',[SocialAccounts::class,'addView'])->name('addView');
@@ -77,6 +78,7 @@ Route::prefix('agents')->group(function () {
 
 Route::prefix('campaigns')->group(function () {
     Route::get('',[CampaignController::class,'list'])->name('list');
+    Route::post('',[CampaignController::class,'list'])->name('list');
     Route::get('/add',[CampaignController::class,'addView'])->name('addView');
     Route::post('/add',[CampaignController::class,'add'])->name('add');
     Route::get('/edit',[CampaignController::class,'addView'])->name('addView');
@@ -90,6 +92,8 @@ Route::prefix('campaigns')->group(function () {
     Route::post('/edit-result',[CampaignController::class,'editResult'])->name('editResult');
     Route::post('/add-result',[CampaignController::class,'addResult'])->name('addResult');
     Route::get('view-results',[CampaignController::class,'viewResults'])->name('viewResults');
+    Route::get('agent/{id}',[CampaignController::class,'viewMine'])->name('viewMine');
+    Route::get('show-numbers',[CampaignController::class,'showNumbers'])->name('showNumbers');
 }); 
 Route::get('/render/cities',[CampaignController::class,'renderCities'])->name('renderCities');
 

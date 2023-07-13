@@ -69,6 +69,7 @@
                                                     <button title="Delte this agent"
                                                         onclick="manageModal({{ $item->id }})"
                                                         class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                    <a class="btn btn-success" href="{{url('/campaigns/agent/'.$item->id)}}">View Campaign</a>
                                                 </td>
                                             </tr>
                                         @empty

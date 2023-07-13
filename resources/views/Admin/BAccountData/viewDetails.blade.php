@@ -76,8 +76,6 @@
                                     <thead>
                                         <tr>
                                             <th>S.No.</th>
-                                            <th>Client ID</th>
-                                            <th>Approved By</th>
                                             <th>Type</th>
                                             <th>Total Amount</th>
                                             <th>Opening Balance</th>
@@ -89,8 +87,6 @@
                                         @forelse($transactions as $item)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $item->client_name }}</td>
-                                                <td>{{ $item->approved_by }}</td>
                                                 <td style="text-transform: capitalize">
                                                    {{ $item->type }}
                                                 </td>

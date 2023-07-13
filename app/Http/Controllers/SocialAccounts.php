@@ -16,7 +16,12 @@ class SocialAccounts extends Controller
         {
             $agent_id=session('user')->id;
         }
-        $searchTerm = $req->query('table_search');
+        if($req->agent)
+        {
+            $agent_id=$req->agent;
+        }
+        $searchTerm = $req->table_search;
+        $agents=User::where('role','=','marketing_agent')->get();
         $accounts=SocialAccount::leftJoin('users','social_accounts.agent_id','users.id')
                                 ->leftJoin('marketing_sources','social_accounts.marketing_source_id','marketing_sources.id')
                                 ->when($searchTerm, function ($query, $searchTerm) {
@@ -33,7 +38,7 @@ class SocialAccounts extends Controller
                                 ->select('social_accounts.*','users.name as agentName','marketing_sources.name as sourcename')
                                 ->orderBy('id','desc')
                                 ->paginate();
-        return view('Admin.SocialAccounts.list',compact('accounts','searchTerm'));
+        return view('Admin.SocialAccounts.list',compact('accounts','searchTerm','agents'));
     }
     public function addView(Request $req) {
         $agents=User::where('role','=','marketing_agent')->get();

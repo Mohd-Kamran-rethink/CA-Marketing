@@ -7,24 +7,32 @@ use App\Campaign;
 use App\CampaignResult;
 use App\CampaignTransaction;
 use App\City;
+use App\PhoneAgent;
+use App\PhoneNumber;
 use App\SocialAccount;
 use App\State;
 use App\TransactionHistory;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class CampaignController extends Controller
 {
   public function list(Request $req)
   {
-    $startDate = $req->query('from_date') ?? null;
-    $endDate = $req->query('to_date') ?? null;
-    $type = $req->query('type') ?? 'null';
-    $account_id = $req->query('account_id') ?? 'null';
+    $startDate = $req->from_date ?? null;
+    $endDate = $req->to_date ?? null;
+    $type = $req->type ?? 'null';
+    $filterAccount = $req->account_id ?? 'null';
     $agent_id = 'null';
     if(session('user')->role=='marketing_agent')
     {
       $agent_id=session('user')->id;
+    }
+    if($req->agent_id)
+    {
+      $agent_id=$req->agent_id;
     }
     if (!$startDate) {
         $startDate = Carbon::now()->startOfDay();
@@ -35,37 +43,39 @@ class CampaignController extends Controller
     }
     $accounts=SocialAccount::where('status','=','active')->get();
     $campaign = Campaign::leftJoin('states', 'campaigns.state_id', 'states.id')
-      ->leftJoin('cities', 'campaigns.city_id', 'cities.id')
-      ->leftJoin('social_accounts', 'campaigns.social_account_id', 'social_accounts.id')
-      ->when($account_id !== 'null', function ($query) use ($account_id) {
-        $query->where('campaigns.social_account_id', '=', intval($account_id));
-      })
-      ->when($agent_id !== 'null', function ($query) use ($agent_id) {
-        $query->where('campaigns.agent_id', '=', intval($agent_id));  
-      })
-      ->select('campaigns.*', 'states.name as statename', 'cities.name as city','social_accounts.title as accountName')
-      ->whereDate('campaigns.created_at', '>=', date('Y-m-d', strtotime($startDate)))
-      ->whereDate('campaigns.created_at', '<=', date('Y-m-d', strtotime($endDate)))
-      
-      ->orderBy('campaigns.created_at', 'desc')
-      ->paginate();
-      $startDate = $startDate->toDateString();
-      $endDate = $endDate->toDateString();
-    return view('Admin.Campaign.list', compact('campaign','accounts','startDate','endDate'));
+                ->leftJoin('cities', 'campaigns.city_id', 'cities.id')
+                ->leftJoin('social_accounts', 'campaigns.social_account_id', 'social_accounts.id')
+                ->when($filterAccount !== 'null', function ($query) use ($filterAccount) {
+                  $query->where('campaigns.social_account_id', '=', intval($filterAccount));
+                })
+                ->when($agent_id !== 'null', function ($query) use ($agent_id) {
+                  $query->where('campaigns.agent_id', '=', intval($agent_id));  
+                })
+                ->select('campaigns.*', 'states.name as statename', 'cities.name as city','social_accounts.title as accountName')
+                ->whereDate('campaigns.created_at', '>=', date('Y-m-d', strtotime($startDate)))
+                ->whereDate('campaigns.created_at', '<=', date('Y-m-d', strtotime($endDate)))
+                
+                ->orderBy('campaigns.created_at', 'desc')
+                ->paginate();
+                $startDate = $startDate->toDateString();
+                $endDate = $endDate->toDateString();
+    $agents=User::where('role','=','marketing_agent')->get();
+    return view('Admin.Campaign.list', compact('campaign','accounts','startDate','endDate','agents','agent_id','filterAccount'));
   }
   public function addView(Request $req)
   {
     $cities = [];
     $accounts=SocialAccount::where('status','=','active')->get();
     $states = State::where('country_id', '=', 101)->orderBy('name', 'asc')->get();
+    $phones=PhoneNumber::whereNull('assign_to')->where('status','=','active')->get();
     if ($req->query('id')) {
       $campaign = Campaign::find($req->query('id'));
       if ($campaign->city_id && $campaign->state_id) {
         $cities = City::where('state_id', '=', $campaign->state_id)->get();
       }
-      return view('Admin.Campaign.add', compact('states', 'accounts','campaign', 'cities'));
+      return view('Admin.Campaign.add', compact('states', 'accounts','campaign', 'cities','phones'));
     }
-    return view('Admin.Campaign.add', compact('states','accounts'));
+    return view('Admin.Campaign.add', compact('states','accounts','phones'));
   }
   public function renderCities(Request $req)
   {
@@ -79,12 +89,20 @@ class CampaignController extends Controller
   }
   public function add(Request $req)
   {
-    $req->validate(['title' => 'required']);
+    $req->validate([
+      'title' => 'required',
+      'account' => 'required|not_in:0',
+      'type' => 'required|not_in:0',
+      'phoneNumbers' => 'required|not_in:0'
+      
+    ]);
+    $phoneIDs= implode (", ", $req->phoneNumbers);
     $campaign = new Campaign();
     $campaign->social_account_id = $req->account;
     $campaign->title = $req->title;
     $campaign->state_id = $req->state;
     $campaign->city_id = $req->city;
+    $campaign->phone_numbers = $phoneIDs;
     $campaign->agent_id  = session('user')->id;
     $campaign->description = $req->description;
     $campaign->type = $req->type;
@@ -270,5 +288,20 @@ class CampaignController extends Controller
         return redirect('/campaigns/view-results?id='.$req->campaign)->with(['msg-error' => 'Somthing went wrong']);
       }
       
+  }
+  public function viewMine($id)
+  {
+    $campaign=Campaign::where('agent_id','=',$id)->paginate();
+    return view('Admin.Campaign.myCampaign',compact('campaign'));
+  }
+  public function showNumbers(Request $req) {
+    $campagin=Campaign::find($req->id);
+    $phoneIDs= explode (",", $campagin->phone_numbers);
+    $numbers=[];
+    foreach ($phoneIDs as $key => $value) {
+      $phone=PhoneNumber::find($value);
+      array_push($numbers,$phone);
+    }
+    return view('Admin.Campaign.showNumbers',compact('numbers'));
   }
 }
