@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-xs-12 col-md-4">
                             <div class="form-group">
-                                <label>Account</label>
+                                <label>Account <span class="text-danger">*</span></label>
 
                                 <select name="account" class="form-control searchOptions" data-validation="required">
                                     <option value="0">--Choose--</option>
