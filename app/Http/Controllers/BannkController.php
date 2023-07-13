@@ -27,6 +27,7 @@ class BannkController extends Controller
                     $query->where(function ($query) use ($searchTerm) {
                         $query->where('bank_details.holder_name', 'like', '%' . $searchTerm . '%');
                         $query->orwhere('bank_details.ifsc', 'like', '%' . $searchTerm . '%');
+                        $query->orwhere('bank_details.account_number', 'like', '%' . $searchTerm . '%');
                     });
                 })
 
