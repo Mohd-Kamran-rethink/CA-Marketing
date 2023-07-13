@@ -7,6 +7,7 @@ use App\Campaign;
 use App\CampaignResult;
 use App\CampaignTransaction;
 use App\City;
+use App\Lead;
 use App\PhoneAgent;
 use App\PhoneNumber;
 use App\SocialAccount;
@@ -303,5 +304,18 @@ class CampaignController extends Controller
       array_push($numbers,$phone);
     }
     return view('Admin.Campaign.showNumbers',compact('numbers'));
+  }
+  public function viewLeads(Request $req)
+  {
+    $campagin=Campaign::find($req->id);
+    $phoneIDs= explode (",", $campagin->phone_numbers);
+    $leads=[];
+    foreach ($phoneIDs as $key => $value) {
+      $numberLeads=Lead::where('source_number','=',$value)->get();
+      foreach ($numberLeads as $key => $item) {
+        array_push($leads,$item);
+      }
+    }
+    return view('Admin.Campaign.leads',compact('leads'));
   }
 }

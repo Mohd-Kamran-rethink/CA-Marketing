@@ -132,6 +132,8 @@
                                                         title="Add Result" class="btn btn-warning">Results Details</a>
                                                     <a href="{{ url('campaigns/show-numbers/?id=' . $item->id) }}"
                                                         title="Add Result" class="btn btn-danger">Phone Number</a>
+                                                    <a href="{{ url('campaigns/view-leads/?id=' . $item->id) }}"
+                                                        title="View Leads" class="btn btn-danger">View Leads</a>
                                                 </td>
                                             </tr>
                                         @empty

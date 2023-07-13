@@ -94,6 +94,7 @@ Route::prefix('campaigns')->group(function () {
     Route::get('view-results',[CampaignController::class,'viewResults'])->name('viewResults');
     Route::get('agent/{id}',[CampaignController::class,'viewMine'])->name('viewMine');
     Route::get('show-numbers',[CampaignController::class,'showNumbers'])->name('showNumbers');
+    Route::get('view-leads',[CampaignController::class,'viewLeads'])->name('viewLeads');
 }); 
 Route::get('/render/cities',[CampaignController::class,'renderCities'])->name('renderCities');
 

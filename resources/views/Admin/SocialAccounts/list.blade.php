@@ -47,8 +47,8 @@
                                         value="{{ $item->id }}">{{ $item->name }}</option>
                                 @endforeach 
                             </select>
-
                         </div>
+
 
                         <div class="">
                             <label for="" style="visibility: hidden;">filter</label>
