@@ -113,13 +113,13 @@
                                 <select name="type" id="type" class="form-control searchOptions"
                                     data-validation="required">
                                     <option value="0">--Choose--</option>
-                                    <option {{isset($campaign)||$campaign->type=="whatsapp"?'selected':''}} value="whatsapp">Whatsapp</option>
-                                    <option {{isset($campaign)||$campaign->type=="wati"?'selected':''}} value="wati">Wati</option>
-                                    <option {{isset($campaign)||$campaign->type=="messanger"?'selected':''}} value="messanger">Messanger</option>
-                                    <option {{isset($campaign)||$campaign->type=="leads"?'selected':''}} value="leads">Leads</option>
-                                    <option {{isset($campaign)||$campaign->type=="leads_reach"?'selected':''}} value="leads_reach">Leads Reach</option>
-                                    <option {{isset($campaign)||$campaign->type=="links_clicks"?'selected':''}} value="links_clicks">Link Clicks</option>
-                                    <option {{isset($campaign)||$campaign->type=="landing_page"?'selected':''}} value="landing_page">Landing Page Views</option>
+                                    <option {{isset($campaign)&&$campaign->type=="whatsapp"?'selected':''}} value="whatsapp">Whatsapp</option>
+                                    <option {{isset($campaign)&&$campaign->type=="wati"?'selected':''}} value="wati">Wati</option>
+                                    <option {{isset($campaign)&&$campaign->type=="messanger"?'selected':''}} value="messanger">Messanger</option>
+                                    <option {{isset($campaign)&&$campaign->type=="leads"?'selected':''}} value="leads">Leads</option>
+                                    <option {{isset($campaign)&&$campaign->type=="leads_reach"?'selected':''}} value="leads_reach">Leads Reach</option>
+                                    <option {{isset($campaign)&&$campaign->type=="links_clicks"?'selected':''}} value="links_clicks">Link Clicks</option>
+                                    <option {{isset($campaign)&&$campaign->type=="landing_page"?'selected':''}} value="landing_page">Landing Page Views</option>
 
                                 </select>
                                 @error('type')
