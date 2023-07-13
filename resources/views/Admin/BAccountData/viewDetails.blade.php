@@ -132,11 +132,9 @@
             const from_date = $('#from_date').val();
             const to_date = $('#to_date').val();
             const type = $('#type').val();
-            const client_id = $('#client_id').val();
             url.searchParams.set('to_date', to_date);
             url.searchParams.set('from_date', from_date ?? '');
             url.searchParams.set('type', type ?? '');
-            url.searchParams.set('client_id', client_id ?? '');
             $('#search-form').attr('action', url.toString()).submit();
         }
     </script>
