@@ -31,7 +31,7 @@ class PhoneNumberController extends Controller
                         $query->where('assign_to', '=', $filetByAgent);
                     });
                 })
-                    ->when($searchTerm, function ($query, $searchTerm) {
+                ->when($searchTerm, function ($query, $searchTerm) {
                         $query->where(function ($query) use ($searchTerm) {
                             $query->where('number', 'like', '%' . $searchTerm . '%');
                         });

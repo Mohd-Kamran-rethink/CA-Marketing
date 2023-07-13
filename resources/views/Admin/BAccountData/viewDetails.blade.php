@@ -48,17 +48,7 @@
                                 <option {{ isset($type) && $type == 'deposit' ? 'selected' : '' }} value="deposit">Deposit</option>
                             </select>
                         </div>
-                        <div class="col-3">
-                            <label for="">Client</label>
-                            <select class="form-control" name="client_id" id="client_id">
-                                <option value="null">--Choose--</option>
-                                @foreach ($clients as $item)
-                                    <option {{ isset($client_id) && $client_id == $item->id ? 'selected' : '' }}
-                                        value="{{ $item->id }}">{{ $item->name??''}}-{{$item->ca_id??''}}-{{$item->number??''}}</option>
-                                @endforeach
-                            </select>
-
-                        </div>
+                       
 
                         <div class="">
                             <label for="" style="visibility: hidden;">filter</label>
