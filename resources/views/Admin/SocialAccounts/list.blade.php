@@ -54,7 +54,7 @@
                             <label for="" style="visibility: hidden;">filter</label>
                             <button class="btn btn-success form-control" type="submit">Filter</button>
                         </div>
-                        <div class="mx-2">
+                        <div class="mx-2 d-flex flex-column">
                             <label for="" style="visibility: hidden;">filter</label>
                             <a tabindex="1" href="{{ url('accounts/add') }}" class="btn btn-primary">Add New Account</a>
                         </div>
