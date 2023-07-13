@@ -113,7 +113,7 @@
                                 <select name="type" id="type" class="form-control searchOptions"
                                     data-validation="required">
                                     <option value="0">--Choose--</option>
-                                    <option {{isset($campaign)?$campaign->type=="whatsapp"?'selected':}} value="whatsapp">Whatsapp</option>
+                                    <option {{isset($campaign)?$campaign->type=="whatsapp"?'selected':''}} value="whatsapp">Whatsapp</option>
                                     <option {{isset($campaign)?$campaign->type=="wati"?'selected':''}} value="wati">Wati</option>
                                     <option {{isset($campaign)?$campaign->type=="messanger"?'selected':''}} value="messanger">Messanger</option>
                                     <option {{isset($campaign)?$campaign->type=="leads"?'selected':''}} value="leads">Leads</option>
