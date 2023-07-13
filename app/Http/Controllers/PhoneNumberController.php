@@ -17,7 +17,7 @@ class PhoneNumberController extends Controller
         $numbers = PhoneNumber::leftJoin('users','phone_numbers.assign_to','users.id')
                 ->when($platform_search != 'null', function ($query) use ($platform_search) {
                     $query->where(function ($query) use ($platform_search) {
-                        $query->where('platform', '=', $platform_search);
+                        $query->where('phone_numbers.platform', '=', $platform_search);
                     });
                 })
                 ->when($status != 'null', function ($query) use ($status) {
