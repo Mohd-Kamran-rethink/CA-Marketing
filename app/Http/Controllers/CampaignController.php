@@ -308,10 +308,12 @@ class CampaignController extends Controller
   public function viewLeads(Request $req)
   {
     $campagin=Campaign::find($req->id);
-    $phoneIDs= explode (",", $campagin->phone_numbers);
+    $phoneIDs= explode (",",$campagin->phone_numbers);
+    // dd($phoneIDs);
     $leads=[];
     foreach ($phoneIDs as $key => $value) {
-      $numberLeads=Lead::where('source_number','=',$value)->get();
+      
+      $numberLeads=Lead::where('source_number','=',trim($value))->get();
       foreach ($numberLeads as $key => $item) {
         array_push($leads,$item);
       }
