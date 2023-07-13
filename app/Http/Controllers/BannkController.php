@@ -13,22 +13,30 @@ use Illuminate\Http\Request;
 class BannkController extends Controller
 {
 
-    public function list()
+    public function list(Request $req)
     {
 
+        $searchTerm=$req->query('table_search')??'';
         $yesterday = Carbon::yesterday();
         $today = Carbon::today();
         $banks = BankDetail::leftjoin('users', 'bank_details.provider_id', '=', 'users.id')
                 ->where('type','=','marketing')
-            ->select('bank_details.*', 'users.name as provider_name')
-            ->whereNull('customer_id')
+                ->select('bank_details.*', 'users.name as provider_name')
+                ->whereNull('customer_id')
+                ->when($searchTerm, function ($query, $searchTerm) {
+                    $query->where(function ($query) use ($searchTerm) {
+                        $query->where('bank_details.holder_name', 'like', '%' . $searchTerm . '%');
+                        $query->orwhere('bank_details.ifsc', 'like', '%' . $searchTerm . '%');
+                    });
+                })
 
-            ->paginate(30);
+                    ->paginate(30);
         // Retrieve last transaction history for each bank from yesterday
         foreach ($banks as $bank) {
             $lastEntery = TransactionHistory::where('bank_id', $bank->id)
                 ->whereDate('created_at', $yesterday)
                 ->orderBy('created_at', 'desc')
+                
                 ->select('current_balance')
                 ->first();
             $todaysFirstEntery= TransactionHistory::where('bank_id', $bank->id)
